@@ -42,5 +42,36 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
+
+    //check if the number is zero
+    Mux16 (a=x, b=false, sel=zx, out=xorzero);
+    Mux16 (a=y, b=false, sel=zy, out=yorzero);
+
+    //getting the compliments of numbers
+    Not16 (in=xorzero, out=notxorzero);
+    Not16 (in=yorzero, out=notyorzero);
+
+    //selecting numbers or their compliments
+    Mux16 (a=xorzero, b=notxorzero, sel=nx, out=xnotx);
+    Mux16 (a=yorzero, b=notyorzero, sel=ny, out=ynoty);
+
+    //addition/multiplication of the two numbers
+    Add16 (a=xnotx, b=ynoty, out=xplusy);
+    And16 (a=xnotx, b=ynoty, out=xandy);
+
+    //selecting sum or muliply
+    Mux16 (a=xandy, b=xplusy, sel=f, out=out1);
+
+    //negating the output
+    Not16 (in=out1, out=nout1);
+
+    //selecting the output or its compliment
+    Mux16 (a=out1, b=nout1, sel=no, out=out2);
+
+    //checking if output is negative: ng=1 if out<0
+    And16 (a=true, b=out2, out=out, out[15]=ng);
+
+    //checking if the output is zero or non zero: zr = 1 if out=0
+    Or16Way (in=out2, out=nzr);
+    Not (in=nzr, out=zr);
 }
