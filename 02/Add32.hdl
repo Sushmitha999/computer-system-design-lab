@@ -1,0 +1,8 @@
+CHIP Add32 {
+    IN a1[16], a2[16], b1[16], b2[16], c;
+    OUT out1[16], out2[16], carry;
+
+    PARTS:
+    Add16(a=a2, b=b2, c=c, out=out2, carry=temp);
+    Add16(a=a1, b=b1, c=temp, out=out1, carry=carry);
+}
