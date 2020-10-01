@@ -1,0 +1,8 @@
+CHIP Register32Bit {
+    IN in1[16], in2[16], load;
+    OUT out1[16], out2[16];
+
+    PARTS:
+    Register(in=in2, load=load, out=out2);
+    Register(in=in1, load=load, out=out1);
+}
