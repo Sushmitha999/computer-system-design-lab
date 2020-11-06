@@ -10,8 +10,8 @@
 @R0
  D=M 
 
-@R1
-D=D&A // D = RAM[1]
+@1
+D=D&A // D = D&1
 
 
  @EQUAL
